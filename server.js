@@ -5,14 +5,7 @@ dotEnv.config({
 });
 
 const DB = process.env.DATA_BASE.replace('<password>', process.env.PASSWORD);
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connect to db'));
+mongoose.connect(DB).then(() => console.log('Connect to db'));
 
 const app = require('./app');
 const port = 7000;

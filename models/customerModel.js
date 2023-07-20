@@ -1,34 +1,35 @@
 const mongoose = require('mongoose');
-const vendorSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
     required,
   },
+
   email: {
     type: String,
     unique: true,
+    required,
+  },
+
+  password: {
+    type: String,
     required,
   },
   phoneNumber: {
     type: Number,
     unique: true,
   },
-  password: {
-    type: String,
-    required,
+  order: {
+    type: Array,
+    default: [],
   },
   img: {
     type: String,
     default:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Shop.svg/1200px-Shop.svg.png',
   },
-
-  vendorProductList: {
-    type: Array,
-    default: [],
-  },
 });
 
-const vendorModel = mongoose.model('vendors', vendorSchema);
-module.exports = vendorModel;
+const customerModel = mongoose.Model('customers', customerSchema);
+module.exports = customerModel;
