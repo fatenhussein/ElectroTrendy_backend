@@ -8,10 +8,11 @@ const {
 } = require('./../controllers/customerControllers');
 const router = express.Router();
 
-//  create new vendor
+//create new vendor
 router.route('/').post(createCustomer);
 
-// get specific  vendor and update , delete the vendor 
+//get specific  vendor and update , delete the vendor 
 router.route('/:id').get(getCustomer).patch(updateCustomer).delete(deleteCustomer);
+
 
 module.exports = router;
