@@ -3,20 +3,21 @@ const vendorSchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
-    required,
+    required: true,
   },
   email: {
     type: String,
     unique: true,
-    required,
+    required: true,
   },
   phoneNumber: {
     type: Number,
     unique: true,
+    required: true,
   },
   password: {
     type: String,
-    required,
+    required: true,
   },
   img: {
     type: String,
