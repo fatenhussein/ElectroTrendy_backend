@@ -3,21 +3,22 @@ const customerSchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
-    required,
+    required: true,
   },
 
   email: {
     type: String,
     unique: true,
-    required,
+    required: true,
   },
 
   password: {
     type: String,
-    required,
+    required: true,
   },
   phoneNumber: {
     type: Number,
+    required: true,
     unique: true,
   },
   order: {
@@ -31,5 +32,5 @@ const customerSchema = new mongoose.Schema({
   },
 });
 
-const customerModel = mongoose.Model('customers', customerSchema);
+const customerModel = mongoose.model('customers', customerSchema);
 module.exports = customerModel;
