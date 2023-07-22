@@ -3,32 +3,36 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
-    required:true,
+    required: true,
   },
   price: {
     type: Number,
-    required:true
+    required: true,
   },
   desc: {
     type: String,
-    required:true
+    required: true,
   },
   quantity: {
     type: Number,
-    required:true
+    required: true,
   },
   img: {
     type: String,
-    required:true
+    required: true,
   },
 
   vendorId: {
     type: String,
-    required:true
+    required: true,
   },
   cat: {
     type: String,
-    required:true
+    required: true,
+  },
+  createdAt: {
+    type: String,
+    default:new Date().toUTCString()
   },
 });
 

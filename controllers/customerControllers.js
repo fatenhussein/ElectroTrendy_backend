@@ -24,10 +24,8 @@ exports.createCustomer = async (req, res) => {
 exports.getCustomer = async (req, res) => {
     try {
       const customer = await Customer.findById(req.params.id);
-  
       res.status(200).json({
         status: 'success',
-  
         customer,
       });
     } catch (err) {
@@ -40,7 +38,6 @@ exports.getCustomer = async (req, res) => {
 
 
 //UpdateCustomer: 
-
 exports.updateCustomer= async (req, res) => {
     try {
       //By default, findOneAndUpdate() returns the document as it was before update was applied.
@@ -63,7 +60,6 @@ exports.updateCustomer= async (req, res) => {
 
 
 //Delete Customer:
-
 exports.deleteCustomer = async (req, res) => {
     try {
       const customer = await Customer.findByIdAndDelete(req.params.id);

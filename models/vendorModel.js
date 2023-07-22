@@ -24,7 +24,6 @@ const vendorSchema = new mongoose.Schema({
     default:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Shop.svg/1200px-Shop.svg.png',
   },
-
   vendorProductList: {
     type: Array,
     default: [],

@@ -1,9 +1,12 @@
 const Product = require('../models/productModel');
 
+const ApiFeatures = require('../utils/apiFeatures');
+
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
-
+    
+    const features = new ApiFeatures(Product, req.query).filter().sort().pagination();
+    const products = await features.query;
     res.status(200).json({
       status: 'success',
       resultNum: products.length,
@@ -12,7 +15,7 @@ exports.getAllProducts = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err.message,
+      message: err,
     });
   }
 };

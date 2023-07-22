@@ -1,5 +1,4 @@
 const Vendor = require('../models/vendorModel');
-
 exports.createVendor = async (req, res) => {
   try {
     const newVendor = await Vendor.create(req.body);
@@ -20,7 +19,6 @@ exports.createVendor = async (req, res) => {
 exports.getVendor = async (req, res) => {
   try {
     const vendor = await Vendor.findById(req.params.id);
-
     res.status(200).json({
       status: 'success',
 
