@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
 
   vendorId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'vendors',
+    ref:'vendors',
     required: true,
   },
   cat: {

@@ -89,12 +89,21 @@ exports.deleteProduct = async (req, res) => {
     });
   }
 };
-
 exports.getVendorProducts = async (req, res) => {
-  const { id: vendorId } = req.params;
-  console.log(vendorId);
+  try {
+    const { id: vendorId } = req.params;
+    const vendorProducts = await Product.find({ vendorId });
+    console.log(req.params.id);
+    console.log(vendorProducts);
+    res.status(200).json({
+      status: 'success',
 
-  const products = await Product.find({ vendorId });
-
-  res.status(200).json({ products });
+      vendorProducts,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
