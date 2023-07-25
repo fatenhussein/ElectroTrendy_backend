@@ -4,9 +4,9 @@ const ordersSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  // vendorIDs: {
-  //   type: { type: mongoose.Schema.ObjectId, ref: 'vendors' },
-  // },
+  vendorIDs: {
+    type: { type: mongoose.Schema.ObjectId, ref: 'vendors' },
+  },
 
   productList: {
     type: [{ type: mongoose.Schema.ObjectId, ref: 'products' }],
@@ -15,7 +15,7 @@ const ordersSchema = new mongoose.Schema({
     type: { type: mongoose.Schema.ObjectId, ref: 'customers' },
   },
 
-  orderState: {
+  orderStatus: {
     type: String,
   },
   totalPrice: {
@@ -23,5 +23,5 @@ const ordersSchema = new mongoose.Schema({
   },
 });
 
-const ordersModel = mongoose.Model('orders', ordersSchema);
+const ordersModel = mongoose.model('orders', ordersSchema);
 module.exports = ordersModel;

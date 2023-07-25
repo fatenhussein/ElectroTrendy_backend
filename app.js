@@ -4,6 +4,7 @@ const app = express();
 const productRouter = require('./routes/productRoute');
 const vendorRouter = require('./routes/vendorRoute');
 const customerRouter = require('./routes/customerRoute');
+const orderRouter = require('./routes/orderRoute');
 
 // create middleware
 ///-------------///
@@ -19,5 +20,6 @@ app.use('/api/v1/products', productRouter);
 app.use('/api/v1/vendors', vendorRouter);
 
 app.use('/api/v1/customers', customerRouter);
+app.use('/api/v1/orders', orderRouter);
 
 module.exports = app;

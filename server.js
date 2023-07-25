@@ -11,5 +11,5 @@ const app = require('./app');
 const port = 7000;
 
 app.listen(port, () => {
-  console.log('runnnnnnn');
+  console.log('server is waiting for request... by mo_awad');
 });
