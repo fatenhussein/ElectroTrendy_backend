@@ -4,15 +4,15 @@ const ordersSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  vendorIDs: {
-    type: [String],
-  },
+  // vendorIDs: {
+  //   type: { type: mongoose.Schema.ObjectId, ref: 'vendors' },
+  // },
 
   productList: {
-    type: [String],
+    type: [{ type: mongoose.Schema.ObjectId, ref: 'products' }],
   },
   customerID: {
-    type: String,
+    type: { type: mongoose.Schema.ObjectId, ref: 'customers' },
   },
 
   orderState: {

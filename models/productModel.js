@@ -23,7 +23,8 @@ const productSchema = new mongoose.Schema({
   },
 
   vendorId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'vendors',
     required: true,
   },
   cat: {
@@ -32,7 +33,7 @@ const productSchema = new mongoose.Schema({
   },
   createdAt: {
     type: String,
-    default:new Date().toUTCString()
+    default: new Date().toUTCString(),
   },
 });
 
