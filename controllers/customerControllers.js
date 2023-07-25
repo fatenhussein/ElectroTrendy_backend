@@ -1,5 +1,4 @@
 const Customer = require('../models/customerModel');
-
 //Create Customer:
 exports.createCustomer = async (req, res) => {
     try {
@@ -73,5 +72,8 @@ exports.deleteCustomer = async (req, res) => {
       });
     }
   };
+
+
+
 
   

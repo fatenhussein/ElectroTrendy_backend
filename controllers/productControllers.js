@@ -4,8 +4,10 @@ const ApiFeatures = require('../utils/apiFeatures');
 
 exports.getAllProducts = async (req, res) => {
   try {
-    
-    const features = new ApiFeatures(Product, req.query).filter().sort().pagination();
+    const features = new ApiFeatures(Product, req.query)
+      .filter()
+      .sort()
+      .pagination();
     const products = await features.query;
     res.status(200).json({
       status: 'success',
@@ -84,6 +86,24 @@ exports.deleteProduct = async (req, res) => {
     res.status(404).json({
       status: 'fail',
       message: err.message,
+    });
+  }
+};
+exports.getVendorProducts = async (req, res) => {
+  try {
+    const { id: vendorId } = req.params;
+    const vendorProducts = await Product.find({ vendorId });
+    console.log(req.params.id);
+    console.log(vendorProducts);
+    res.status(200).json({
+      status: 'success',
+
+      vendorProducts,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
     });
   }
 };
