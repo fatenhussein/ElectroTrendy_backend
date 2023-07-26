@@ -14,7 +14,6 @@ const ordersSchema = new mongoose.Schema({
   customerID: {
     type: { type: mongoose.Schema.ObjectId, ref: 'customers' },
   },
-
   orderStatus: {
     type: String,
   },

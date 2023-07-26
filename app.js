@@ -5,7 +5,7 @@ const productRouter = require('./routes/productRoute');
 const vendorRouter = require('./routes/vendorRoute');
 const customerRouter = require('./routes/customerRoute');
 const orderRouter = require('./routes/orderRoute');
-
+const cartRouter = require('./routes/cartRouter');
 // create middleware
 ///-------------///
 //to access the body req
@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/v1/products', productRouter);
 
 app.use('/api/v1/vendors', vendorRouter);
+app.use('/api/v1/cart', cartRouter);
 
 app.use('/api/v1/customers', customerRouter);
 app.use('/api/v1/orders', orderRouter);

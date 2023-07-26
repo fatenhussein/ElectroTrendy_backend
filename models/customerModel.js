@@ -15,16 +15,18 @@ const customerSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    select: false,
+  },
+  confirmPassword: {
+    type: String,
+    required: true,
   },
   phoneNumber: {
     type: Number,
     required: true,
     unique: true,
   },
-  order: {
-    type: Array,
-    default: [],
-  },
+
   img: {
     type: String,
     default:
