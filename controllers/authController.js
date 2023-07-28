@@ -2,13 +2,12 @@ const Customer = require('../models/customerModel');
 const jwt = require('jsonwebtoken');
 exports.signUp = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, phoneNumber } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
     const customer = await Customer.create({
       name,
       email,
       password,
       confirmPassword,
-      phoneNumber,
     });
     //create token
     const token = jwt.sign({ id: customer._id }, process.env.JWT_SECRET);
@@ -26,7 +25,7 @@ exports.signUp = async (req, res) => {
   }
 };
 
-exports.signIn = (req, res) => {
+exports.signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -35,13 +34,15 @@ exports.signIn = (req, res) => {
       throw new Error('Please provide your email and password');
     }
     //2)Check if user exist && password is correct
-    const currentUser = Customer.findOne({ email });
+    const currentUser = await Customer.findOne({ email });
 
     //3)If everything ok, send token to client
+
     const token = jwt.sign({ id: currentUser._id }, process.env.JWT_SECRET);
     res.status(200).json({
       status: 'success',
       token,
+      id: currentUser._id,
     });
   } catch (err) {
     res.status(404).json({
