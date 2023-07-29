@@ -65,3 +65,36 @@ exports.deleteVendor = async (req, res) => {
     });
   }
 };
+//  NEW NEW NEW
+exports.vendorLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if the vendor with the provided email exists in the database
+    const vendor = await Vendor.findOne({ email });
+    if (!vendor) {
+      return res
+        .status(404)
+        .json({ status: 'fail', message: 'Vendor not found' });
+    }
+
+    // Compare the provided password with the hashed password stored in the database
+
+    const isPasswordValid = password === vendor.password;
+    if (!isPasswordValid) {
+      return res
+        .status(401)
+        .json({ status: 'fail', message: 'Invalid password' });
+    }
+    res.status(200).json({ status: 'success', vendorId: vendor._id });
+
+    // If the email and password are valid, generate a JWT token and send it back to the client
+    // const token = jwt.sign({ vendorId: vendor._id }, 'your-secret-key', {
+    //   expiresIn: '1h',
+    // });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ status: 'error', message: 'An error occurred', error: err });
+  }
+};
