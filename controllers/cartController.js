@@ -1,78 +1,114 @@
 const Cart = require('../models/cartModel');
 
-// add to cart
-exports.addItemToCart = (req, res) => {
+exports.getCart = async (req, res) => {
   try {
-    const { quantity, customerId } = req.body;
-    const { productId } = req.params;
+    const { customerId } = req.params;
+    const cart = await Cart.findOne({ customerId }).populate(
+      'productList.productId'
+    );
+    console.log(cart);
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+    return res.status(200).json({
+      message: 'success',
+      cart,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: 'fail',
+    });
+  }
+};
+
+exports.addItemToCart = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const { customerId } = req.params;
+
+    console.log(customerId);
     // find the user cart  Cart.find({customerId })
-    const userCart = Cart.find({ customerId });
-    let product = userCart.productList.find(
-      (item) => item.productId === productId
+    const cart = await Cart.findOne({ customerId });
+    console.log(cart);
+    let product = cart.productList.find(
+      (item) => item.productId.toString() === productId
     );
     if (!product) {
-      product = userCart.productList.push({ quantity, productId });
+      cart.productList.push({ quantity: 1, productId });
     } else {
-      product = userCart.productList.map((item) => {
-        if (item.productId === productId) {
-          item.quantity += 1;
-        }
-      });
+      product.quantity += 1;
     }
-    res.status(201).json({
-      message: 'success',
-      data: { product },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-//delete 
-exports.deleteItemFromCart = (req, res) => {
-  try {
-    const { customerId } = req.body;
-    const { productId } = req.params;
-    // find the user cart  Cart.find({customerId })
-    const userCart = Cart.find({ customerId });
-    let products = userCart.productList.filter(
-      (item) => item.productId !== productId
-    );
+
+    await cart.save();
+
+    const { productList } = await cart.populate('productList.productId');
 
     res.status(201).json({
       message: 'success',
-      data: { products },
+      productList,
     });
   } catch (err) {
     console.log(err);
+    res.status(400).json({
+      message: 'fail',
+    });
   }
 };
 
-exports.removeItemFromCart = (req, res) => {
+exports.removeItemFromCart = async (req, res) => {
   try {
-    const { customerId } = req.body;
-    const { productId } = req.params;
+    const { productId } = req.body;
+    const { customerId } = req.params;
     // find the user cart  Cart.find({customerId })
-    const userCart = Cart.find({ customerId });
-    let product = userCart.productList.find(
-      (item) => item.productId === productId
+    const cart = await Cart.findOne({ customerId });
+    let product = cart.productList.find(
+      (item) => item.productId.toString() === productId
     );
+    console.log(product);
     if (product.quantity > 1) {
-      product = userCart.productList.map((item) => {
-        if (item.productId === productId) {
-          item.quantity -= 1;
-        }
-      });
+      product.quantity -= 1;
     } else {
-      product = userCart.productList.filter(
-        (item) => item.productId !== productId
+      updatedProductList = cart.productList.filter(
+        (item) => item.productId.toString() !== productId
       );
+
+      cart.productList = updatedProductList;
     }
+
+    await cart.save();
+    const { productList } = await cart.populate('productList.productId');
 
     res.status(201).json({
       message: 'success',
-      data: { product },
+      productList,
     });
   } catch (err) {
     console.log(err);
+    res.status(400).json({
+      message: 'fail',
+    });
+  }
+};
+
+exports.removeAllItems = async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    // find the user cart  Cart.find({customerId })
+    const cart = await Cart.findOne({ customerId });
+
+    cart.productList = [];
+
+    await cart.save();
+
+    res.status(201).json({
+      message: 'success',
+      cart,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: 'fail',
+    });
   }
 };

@@ -9,8 +9,10 @@ exports.getAllProducts = async (req, res) => {
       .sort()
       .pagination();
     const products = await features.query;
+    const count = await Product.count();
     res.status(200).json({
       status: 'success',
+      count,
       resultNum: products.length,
       products,
     });

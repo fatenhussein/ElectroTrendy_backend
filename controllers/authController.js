@@ -1,5 +1,7 @@
 const Customer = require('../models/customerModel');
 const jwt = require('jsonwebtoken');
+const Cart = require('../models/cartModel');
+
 exports.signUp = async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body;
@@ -9,15 +11,24 @@ exports.signUp = async (req, res) => {
       password,
       confirmPassword,
     });
-    //create token
+
+    // Create cart for the customer
+
+    const userCart = new Cart({ customerId: customer._id, productList: [] });
+
+    await userCart.save();
+
+    // Create token
     const token = jwt.sign({ id: customer._id }, process.env.JWT_SECRET);
     console.log(token);
+
     res.status(201).json({
       state: 'success',
       token,
       data: { customer },
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: 'fail',
       message: err,
