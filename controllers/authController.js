@@ -45,21 +45,16 @@ exports.signIn = async (req, res) => {
       throw new Error('Please provide your email and password');
     }
     //2)Check if user exist && password is correct
-    const currentUser = await Customer.findOne({ email });
-
+    const currentUser = await Customer.findOne({ email }).select('+password');
+    console.log(currentUser);
     //3)If everything ok, send token to client
-    if (currentUser.password === password) {
-      const token = jwt.sign({ id: currentUser._id }, process.env.JWT_SECRET);
-      res.status(200).json({
-        status: 'success',
-        token,
-        id: currentUser._id,
-      });
-    } else {
-      res.status(404).json({
-        status: 'fail',
-      });
-    }
+
+    const token = jwt.sign({ id: currentUser._id }, process.env.JWT_SECRET);
+    res.status(200).json({
+      status: 'success',
+      token,
+      id: currentUser._id,
+    });
   } catch (err) {
     res.status(404).json({
       status: 'fail',
