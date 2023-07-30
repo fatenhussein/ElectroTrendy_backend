@@ -48,13 +48,18 @@ exports.signIn = async (req, res) => {
     const currentUser = await Customer.findOne({ email });
 
     //3)If everything ok, send token to client
-
-    const token = jwt.sign({ id: currentUser._id }, process.env.JWT_SECRET);
-    res.status(200).json({
-      status: 'success',
-      token,
-      id: currentUser._id,
-    });
+    if (currentUser.password === password) {
+      const token = jwt.sign({ id: currentUser._id }, process.env.JWT_SECRET);
+      res.status(200).json({
+        status: 'success',
+        token,
+        id: currentUser._id,
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+      });
+    }
   } catch (err) {
     res.status(404).json({
       status: 'fail',
